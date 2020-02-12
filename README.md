@@ -24,7 +24,7 @@ go get github.com/go-gl/mathgl/mgl32
 ![Dir structure](images/structure.png)
 
 ## Demo vid
-[![Watch the video](images/vid.png)](demo_video/Cube.mp4)
+[![Watch the video](images/vid.png)](https://youtu.be/mngblAU54EA)
 
 ## Reference links
 
