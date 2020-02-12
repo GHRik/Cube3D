@@ -21,7 +21,7 @@ go get github.com/go-gl/mathgl/mgl32
 ```
  
 ## Dir structure
-![Dir structure](images/structure.png
+![Dir structure](images/structure.png)
 * cube.go - file with script
 * demo_vide - directory with video which is on youtube
 * images - directory with image necessary to use in README
