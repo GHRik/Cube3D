@@ -1,6 +1,6 @@
-// Renders a textured spinning cube using GLFW 3 and OpenGL 4.1 core forward-compatible profile.
 package main
 
+// Importowanie paczek
 import (
 	"fmt"
 	"image"
@@ -30,7 +30,7 @@ func main() {
 		log.Fatalln("failed to initialize glfw:", err)
 	}
 	defer glfw.Terminate()
-
+//--------------------------------------------------------------------------------------------------
 	//Tworzenie okna za pomocą biblioteki GLFW
 	glfw.WindowHint(glfw.Resizable, glfw.False)
 	glfw.WindowHint(glfw.ContextVersionMajor, 4)
@@ -42,21 +42,24 @@ func main() {
 		panic(err)
 	}
 	window.MakeContextCurrent()
+//--------------------------------------------------------------------------------------------------
 
 	// Inicjalizacja Glow
 	if err := gl.Init(); err != nil {
 		panic(err)
 	}
-
+//--------------------------------------------------------------------------------------------------
 	//Wypisanie wersji używanego openGLa
 	version := gl.GoStr(gl.GetString(gl.VERSION))
 	fmt.Println("OpenGL version", version)
+//--------------------------------------------------------------------------------------------------
 
 	// Konfiguracja wierzchołków i fragmentów shadera
 	program, err := newProgram(vertexShader, fragmentShader)
 	if err != nil {
 		panic(err)
 	}
+//--------------------------------------------------------------------------------------------------
 
 	gl.UseProgram(program)
 
@@ -78,12 +81,14 @@ func main() {
 	gl.Uniform1i(textureUniform, 0)
 
 	gl.BindFragDataLocation(program, 0, gl.Str("outputColor\x00"))
+//--------------------------------------------------------------------------------------------------
 
 	// Wgranie tekstury z pliku square.png
 	texture, err := newTexture("square.png")
 	if err != nil {
 		log.Fatalln(err)
 	}
+//--------------------------------------------------------------------------------------------------
 
 	// Konfiguracja wierzchołków
 	var vao uint32
@@ -102,11 +107,12 @@ func main() {
 	texCoordAttrib := uint32(gl.GetAttribLocation(program, gl.Str("vertTexCoord\x00")))
 	gl.EnableVertexAttribArray(texCoordAttrib)
 	gl.VertexAttribPointer(texCoordAttrib, 2, gl.FLOAT, false, 5*4, gl.PtrOffset(3*4))
-
+//--------------------------------------------------------------------------------------------------
 	// Konfiguracja globalnych ustawień
 	gl.Enable(gl.DEPTH_TEST)
 	gl.DepthFunc(gl.LESS)
 	gl.ClearColor(1.0, 1.0, 1.0, 1.0)
+//--------------------------------------------------------------------------------------------------
 
 	angle := 0.0
 	previousTime := glfw.GetTime()
@@ -118,10 +124,9 @@ func main() {
 		time := glfw.GetTime()
 		elapsed := time - previousTime
 		previousTime = time
-
 		angle += elapsed
 		model = mgl32.HomogRotate3D(float32(angle), mgl32.Vec3{0, 1, 0})
-
+                //---------------------------------------------------------------------------------
 		// Rendering
 		gl.UseProgram(program)
 		gl.UniformMatrix4fv(modelUniform, 1, false, &model[0])
@@ -132,11 +137,13 @@ func main() {
 		gl.BindTexture(gl.TEXTURE_2D, texture)
 
 		gl.DrawArrays(gl.TRIANGLES, 0, 6*2*3)
-
-		// Maintenance
+                //---------------------------------------------------------------------------------
+		// Konserwacja
 		window.SwapBuffers()
 		glfw.PollEvents()
+                //---------------------------------------------------------------------------------
 	}
+//--------------------------------------------------------------------------------------------------
 }
 
 func newProgram(vertexShaderSource, fragmentShaderSource string) (uint32, error) {
